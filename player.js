@@ -18,17 +18,20 @@ exports = module.exports = {
     }.bind(this) );
   },
 
-  getBet: function (sb) {
+  getBet: function (gamestate) {
     if(this.isPair() && this.isPreFlop())
-      return Infinity;
+      return gamestate.pot*1.2;
 
     if(this.isPair() )
-      return Infinity;
+      return gamestate.pot*1.2;
+
+    if(this.areFigures())
+      return gamestate.callAmount;
 
     if(this.isThereAnyFigure())
-      return Infinity;
+      return gamestate.pot;
 
-    return sb*3;
+    return gamestate.sb*3;
   },
   
   isPair: function(){
@@ -43,16 +46,20 @@ exports = module.exports = {
     if(isNaN(this.myCard[0].rank*1) || isNaN(this.myCard[1].rank*1))
       return true;
   },
+  
+  areFigures: function(){
+    if(isNaN(this.myCard[0].rank*1) && isNaN(this.myCard[1].rank*1))
+      return true;
+  },
 
-  cardToNumber: function(cardRank) {
-    if( parseInt(cardRank).toString() != "NaN" ) {
-      return cardRank;
+  cardToNumber: function(cardRank) {
+	if(parseInt(cardRank).toString() != "NaN"){
+		return cardRank;
     }
-
-    if(cardRank === 'J') return '11';
-    if(cardRank === 'Q') return '12';
-    if(cardRank === 'K') return '13';
-    if(cardRank === 'A') return '14';
+	if(cardRank==='J')return '11';
+    if(cardRank==='Q')return '12';
+    if(cardRank==='K')return '13';
+    if(cardRank==='A')return '14';
   },
 
   bet: function (gamestate, bet) {
@@ -72,7 +79,7 @@ debugger;
     this.commonCards = gamestate.commonCards;
 
 
-    this.betValue = this.getBet(gamestate.sb);
+    this.betValue = this.getBet(gamestate);
 
 
     //
