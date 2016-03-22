@@ -20,13 +20,13 @@ exports = module.exports = {
 
   getBet: function (sb) {
     if(this.isPair() && this.isPreFlop())
-      return sb*5;
+      return Infinity;
 
     if(this.isPair() )
-      return sb*5;
+      return Infinity;
 
     if(this.isThereAnyFigure())
-      return sb*5;
+      return Infinity;
 
     return sb*3;
   },
@@ -57,7 +57,7 @@ exports = module.exports = {
 
   bet: function (gamestate, bet) {
     'use strict';
-//debugger;
+debugger;
     // gamestate contains info about the state of the game.
     // check the documentation at https://bot-poker.herokuapp.com/wiki for further info about the data structure.
 
